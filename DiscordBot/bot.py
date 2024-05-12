@@ -9,7 +9,9 @@ import discord
 from discord.ext import commands, tasks
 
 # Define your list of towns
-towns = ["Saint Denis", "Valentine", "Rhodes", "Blackwater", "Strawberry", "Tumbleweed", "Armadillo", "Van Horn", "Annesburg", "Emerald Ranch"]
+towns = ["Saint Denis", "Valentine", "Rhodes", "Blackwater",
+         "Strawberry", "Tumbleweed", "Armadillo", "Van Horn",
+         "Annesburg", "Emerald Ranch", "Hays Kansas", "Bunkie's House"]
 
 #interval for changing the presence (in seconds)
 change_interval = 6 * 60 * 60
@@ -54,14 +56,18 @@ for filename in os.listdir('./cogs'):
             logging.error(e.with_traceback(e.__traceback__))
 
 
-async def presence_loop():
-    while True:
-        # Choose a random town from the list
-        town = random.choice(towns)
-        # Update the bot's presence
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"over {town}"))
-        # Wait for the specified interval
-        await asyncio.sleep(change_interval)
+@bot.event
+async def on_ready():
+    logger.info(f"{bot.user.name} connected!")
+    logger.info(f"Using Discord.py version {discord.__version__}")
+    logger.info(f"Using Python version {platform.python_version()}")
+    logger.info(f"Running on {platform.system()} {platform.release()} ({os.name})")
+    # Choose a random town from the list
+    town = random.choice(towns)
+    # Update the bot's presence
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"over {town}"))
+    # Wait for the specified interval
+    await asyncio.sleep(change_interval)
 
 
 @bot.slash_command(name="ping", description="Pong back latency")

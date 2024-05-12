@@ -11,8 +11,13 @@ LOWWORDS_LIST = [
     "Birdy", "Earl", "Porky","Rizz", 
     "Gyat", "Ohio", "Sigma", "Besse",
     "Thirstys", "Gamerdog", "Extra Life Gaming",
-    "Worst bot", "Bad bot", "Kroger", "Kelei", "Cammy"
+    "Kroger", "Kelei", "Cammy"
 ]
+
+
+#SHITWORDS_LIST = [
+#    "Worst bot", "Bad bot"
+#]
 
 
 class LowHonorWordCounter(commands.Cog):
@@ -82,10 +87,10 @@ class LowHonorWordCounter(commands.Cog):
             return
         
         # If message contains the bad bot, handle it separately.
-        if "bad bot" in msg.lower():
-            await message.reply("Fuck you")
-            await self.db.increment_low_honor_word_count(guild.id, author.id, num_words)
-            return
+#        if SHITWORDS_LIST in msg.lower():
+#            await message.reply("Fuck you")
+#            await self.db.increment_low_honor_word_count(guild.id, author.id, num_words)
+#            return
 
         if not await self.db.member_in_database(guild.id, author.id):
             await self.db.create_member(guild.id, author.id, author.name)
